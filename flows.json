@@ -326,21 +326,39 @@
         "id": "91cd058327d3c53f",
         "type": "function",
         "z": "2bc482b3e8055f9a",
-        "name": "Log de Vibração Errada ",
-        "func": "const value = msg.payload;\nmsg.payload = `Leitura do sensor de Vibração fora da faixa: '${value}'`;\nreturn msg;",
+        "name": "Vibração Errada ",
+        "func": "const value = msg.payload;\nmsg.payload = `Leitura do sensor de Vibração fora da faixa: '${value}'`;\nmsg.topic = \"Vibração incorreta\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 730,
+        "x": 700,
         "y": 260,
         "wires": [
             [
-                "94bf5470fb15f669"
+                "94bf5470fb15f669",
+                "5fc96e4377cb9bc6"
             ]
         ]
+    },
+    {
+        "id": "5fc96e4377cb9bc6",
+        "type": "e-mail",
+        "z": "2bc482b3e8055f9a",
+        "server": "smtp-mail.outlook.com",
+        "port": "587",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": false,
+        "tls": true,
+        "name": "weslleydsg@outlook.com",
+        "dname": "Notificar E-mail",
+        "x": 980,
+        "y": 320,
+        "wires": []
     },
     {
         "id": "0c8b326a724c82b8",
@@ -434,7 +452,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 740,
-        "y": 560,
+        "y": 640,
         "wires": []
     },
     {
@@ -450,7 +468,7 @@
         "finalize": "",
         "libs": [],
         "x": 470,
-        "y": 500,
+        "y": 580,
         "wires": [
             [
                 "8bb35579d8ef5d2f",
@@ -533,7 +551,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 700,
-        "y": 500,
+        "y": 580,
         "wires": [
             []
         ]
@@ -543,7 +561,7 @@
         "type": "mqtt out",
         "z": "4fb5716966343de7",
         "name": "Vibração",
-        "topic": "weslleydsg/feeds/ac-monitoring-dev.vibracao",
+        "topic": "weslleydsg/feeds/ac-monitoring.vibracao",
         "qos": "0",
         "retain": "false",
         "respTopic": "",
@@ -553,7 +571,7 @@
         "expiry": "",
         "broker": "cb497bc7bd357efb",
         "x": 700,
-        "y": 440,
+        "y": 520,
         "wires": []
     },
     {
@@ -561,7 +579,7 @@
         "type": "mqtt out",
         "z": "4fb5716966343de7",
         "name": "Temperatura",
-        "topic": "weslleydsg/feeds/ac-monitoring-dev.temperatura",
+        "topic": "weslleydsg/feeds/ac-monitoring.temperatura",
         "qos": "0",
         "retain": "",
         "respTopic": "",
@@ -592,52 +610,36 @@
         "wires": []
     },
     {
-        "id": "f6b6868241d15fab",
-        "type": "ping",
-        "z": "4fb5716966343de7",
-        "protocol": "Automatic",
-        "mode": "timed",
-        "name": "Conexão",
-        "host": "io.adafruit.com",
-        "timer": "30",
-        "inputs": 0,
-        "x": 140,
-        "y": 240,
-        "wires": [
-            [
-                "821f9d895ddb0658"
-            ]
-        ]
-    },
-    {
         "id": "821f9d895ddb0658",
         "type": "switch",
         "z": "4fb5716966343de7",
         "name": "Verifica conectado",
-        "property": "payload",
+        "property": "statusCode",
         "propertyType": "msg",
         "rules": [
             {
-                "t": "false"
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
             },
             {
                 "t": "else"
             }
         ],
-        "checkall": "true",
+        "checkall": "false",
         "repair": false,
         "outputs": 2,
         "x": 170,
         "y": 320,
         "wires": [
             [
-                "6eb4850528fd502a",
-                "878cfe3d224acfa1"
-            ],
-            [
                 "8fcf6aa8839eaacc",
                 "0c8b326a724c82b8",
                 "93b734b92e6e4c75"
+            ],
+            [
+                "878cfe3d224acfa1",
+                "6eb4850528fd502a"
             ]
         ]
     },
@@ -652,8 +654,8 @@
         "createDir": true,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 1130,
-        "y": 340,
+        "x": 1070,
+        "y": 380,
         "wires": [
             []
         ]
@@ -662,7 +664,7 @@
         "id": "878cfe3d224acfa1",
         "type": "function",
         "z": "4fb5716966343de7",
-        "name": "Log de Conexão falhou ",
+        "name": "Conexão falhou ",
         "func": "const estaConectado = global.get(\"estaConectado\");\nif (estaConectado) {\n    global.set(\"estaConectado\", false);\n}\nmsg.estaConectado = estaConectado;\nmsg.payload = \"Conexão falhou\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -670,8 +672,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 300,
+        "x": 460,
+        "y": 320,
         "wires": [
             [
                 "e58af1862de12e85"
@@ -690,8 +692,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 940,
-        "y": 340,
+        "x": 900,
+        "y": 380,
         "wires": [
             [
                 "eaadafc6c083f03c"
@@ -702,19 +704,20 @@
         "id": "c1f9b5365f46455a",
         "type": "function",
         "z": "4fb5716966343de7",
-        "name": "Log de Temperatura Errada ",
-        "func": "const value = msg.payload;\nmsg.payload = `Leitura do sensor de temperatura fora da faixa: '${value}'`;\nreturn msg;",
+        "name": "Temperatura Errada ",
+        "func": "const value = msg.payload;\nmsg.payload = `Leitura do sensor de temperatura fora da faixa: '${value}'`;\nmsg.topic = \"Temperatura incorreta\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 800,
-        "y": 240,
+        "x": 740,
+        "y": 260,
         "wires": [
             [
-                "e58af1862de12e85"
+                "e58af1862de12e85",
+                "cd7a172c0054aa0d"
             ]
         ]
     },
@@ -731,7 +734,7 @@
         "finalize": "",
         "libs": [],
         "x": 470,
-        "y": 380,
+        "y": 460,
         "wires": [
             [
                 "ff96975f179c13f3"
@@ -754,10 +757,70 @@
         "repair": false,
         "outputs": 1,
         "x": 700,
-        "y": 380,
+        "y": 460,
         "wires": [
             [
                 "e58af1862de12e85"
+            ]
+        ]
+    },
+    {
+        "id": "cd7a172c0054aa0d",
+        "type": "e-mail",
+        "z": "4fb5716966343de7",
+        "server": "smtp-mail.outlook.com",
+        "port": "587",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": false,
+        "tls": true,
+        "name": "weslleydsg@outlook.com",
+        "dname": "Notificar E-mail",
+        "x": 1060,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "7c8642b2156f872a",
+        "type": "http request",
+        "z": "4fb5716966343de7",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "io.adafruit.com",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "821f9d895ddb0658"
+            ]
+        ]
+    },
+    {
+        "id": "2c24206a8a00aba1",
+        "type": "inject",
+        "z": "4fb5716966343de7",
+        "name": "Loop",
+        "props": [],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "7c8642b2156f872a"
             ]
         ]
     }
