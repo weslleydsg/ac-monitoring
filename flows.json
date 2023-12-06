@@ -176,7 +176,7 @@
         "read": false,
         "bcm": true,
         "x": 280,
-        "y": 160,
+        "y": 180,
         "wires": [
             [
                 "86be3291042a4db7",
@@ -252,13 +252,13 @@
         "id": "0c8b326a724c82b8",
         "type": "rpi-dht22",
         "z": "4fb5716966343de7",
-        "name": "Sensro Temperatura",
+        "name": "Sensor Temperatura",
         "topic": "dht11",
         "dht": "11",
         "pintype": "0",
         "pin": "6",
-        "x": 520,
-        "y": 440,
+        "x": 580,
+        "y": 220,
         "wires": [
             [
                 "4834a4953b394260"
@@ -278,8 +278,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1070,
-        "y": 380,
+        "x": 1090,
+        "y": 160,
         "wires": []
     },
     {
@@ -320,30 +320,10 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1070,
-        "y": 500,
+        "x": 1090,
+        "y": 280,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "359a5f45c32870ab",
-        "type": "inject",
-        "z": "4fb5716966343de7",
-        "name": "Loop (Envio de dados)",
-        "props": [],
-        "repeat": "10",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "5",
-        "topic": "",
-        "x": 250,
-        "y": 440,
-        "wires": [
-            [
-                "0c8b326a724c82b8",
-                "8fcf6aa8839eaacc"
-            ]
         ]
     },
     {
@@ -359,8 +339,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
-        "y": 560,
+        "x": 840,
+        "y": 460,
         "wires": []
     },
     {
@@ -375,8 +355,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 620,
+        "x": 570,
+        "y": 400,
         "wires": [
             [
                 "8bb35579d8ef5d2f",
@@ -404,13 +384,13 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 800,
-        "y": 440,
+        "x": 840,
+        "y": 220,
         "wires": [
             [
-                "30167fa1a5a832b4",
+                "70e2816f64b758a9",
                 "4659eb8d84b1a570",
-                "70e2816f64b758a9"
+                "30167fa1a5a832b4"
             ]
         ]
     },
@@ -452,8 +432,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 740,
-        "y": 680,
+        "x": 800,
+        "y": 400,
         "wires": [
             []
         ]
@@ -463,7 +443,7 @@
         "type": "mqtt out",
         "z": "4fb5716966343de7",
         "name": "Vibração",
-        "topic": "weslleydsg/feeds/ac-vibracao",
+        "topic": "weslleydsg/feeds/ac-monitoring-dev.vibracao",
         "qos": "0",
         "retain": "false",
         "respTopic": "",
@@ -472,8 +452,8 @@
         "correl": "",
         "expiry": "",
         "broker": "cb497bc7bd357efb",
-        "x": 740,
-        "y": 620,
+        "x": 800,
+        "y": 340,
         "wires": []
     },
     {
@@ -481,7 +461,7 @@
         "type": "mqtt out",
         "z": "4fb5716966343de7",
         "name": "Temperatura",
-        "topic": "weslleydsg/feeds/ac-temperatura",
+        "topic": "weslleydsg/feeds/ac-monitoring-dev.temperatura",
         "qos": "0",
         "retain": "",
         "respTopic": "",
@@ -490,8 +470,73 @@
         "correl": "",
         "expiry": "",
         "broker": "cb497bc7bd357efb",
-        "x": 1070,
-        "y": 440,
+        "x": 1090,
+        "y": 220,
         "wires": []
+    },
+    {
+        "id": "6eb4850528fd502a",
+        "type": "debug",
+        "z": "4fb5716966343de7",
+        "name": "Sem conexão",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 500,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "f6b6868241d15fab",
+        "type": "ping",
+        "z": "4fb5716966343de7",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "Conexão",
+        "host": "io.adafruit.com",
+        "timer": "10",
+        "inputs": 0,
+        "x": 120,
+        "y": 300,
+        "wires": [
+            [
+                "821f9d895ddb0658"
+            ]
+        ]
+    },
+    {
+        "id": "821f9d895ddb0658",
+        "type": "switch",
+        "z": "4fb5716966343de7",
+        "name": "Verifica conectado",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 300,
+        "wires": [
+            [
+                "6eb4850528fd502a"
+            ],
+            [
+                "8fcf6aa8839eaacc",
+                "0c8b326a724c82b8"
+            ]
+        ]
     }
 ]
