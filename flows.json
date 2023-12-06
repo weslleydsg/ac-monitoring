@@ -1,8 +1,16 @@
 [
     {
+        "id": "2bc482b3e8055f9a",
+        "type": "tab",
+        "label": "Escuta Vibrações",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "4fb5716966343de7",
         "type": "tab",
-        "label": "Coleta de Dados",
+        "label": "Trata/Envia dados",
         "disabled": false,
         "info": "",
         "env": []
@@ -126,6 +134,121 @@
         }
     },
     {
+        "id": "cb497bc7bd357efb",
+        "type": "mqtt-broker",
+        "name": "Adafruit",
+        "broker": "io.adafruit.com",
+        "port": "1883",
+        "tls": "",
+        "clientid": "RASP-NODE-RED",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d00c3532e391db2e",
+        "type": "rpi-gpio in",
+        "z": "2bc482b3e8055f9a",
+        "name": "Sensor Vibração",
+        "pin": "21",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "86be3291042a4db7",
+                "8402954f7e7b5306",
+                "a90925c0cc4b5095"
+            ]
+        ]
+    },
+    {
+        "id": "86be3291042a4db7",
+        "type": "debug",
+        "z": "2bc482b3e8055f9a",
+        "name": "Sensor de Vibração Leitura",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "8402954f7e7b5306",
+        "type": "ui_gauge",
+        "z": "2bc482b3e8055f9a",
+        "name": "",
+        "group": "d4493d830499e4ab",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "1",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": true,
+        "className": "",
+        "x": 530,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a90925c0cc4b5095",
+        "type": "function",
+        "z": "2bc482b3e8055f9a",
+        "name": "Incremetar Vibração",
+        "func": "if (msg.payload !== 1) {\n    return;\n}\nconst contador = global.get(\"contadorVibracoes\");\nglobal.set(\"contadorVibracoes\", contador + 1);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "//O código adicionado aqui será executado uma vez\n// sempre que o nó for iniciado.\nglobal.set(\"contadorVibracoes\", 0);\n",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "0c8b326a724c82b8",
         "type": "rpi-dht22",
         "z": "4fb5716966343de7",
@@ -134,7 +257,7 @@
         "dht": "11",
         "pintype": "0",
         "pin": "6",
-        "x": 560,
+        "x": 520,
         "y": 440,
         "wires": [
             [
@@ -155,45 +278,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1170,
+        "x": 1070,
         "y": 380,
-        "wires": []
-    },
-    {
-        "id": "9f7278a6a4924364",
-        "type": "rpi-gpio in",
-        "z": "4fb5716966343de7",
-        "name": "Sensor Vibração",
-        "pin": "21",
-        "intype": "tri",
-        "debounce": "25",
-        "read": false,
-        "bcm": true,
-        "x": 320,
-        "y": 240,
-        "wires": [
-            [
-                "58366fd11f99b3c6",
-                "9f377990cc3dd014",
-                "d0cf2324b157ded0"
-            ]
-        ]
-    },
-    {
-        "id": "58366fd11f99b3c6",
-        "type": "debug",
-        "z": "4fb5716966343de7",
-        "name": "Sensor de Vibração Leitura",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 640,
-        "y": 240,
         "wires": []
     },
     {
@@ -234,39 +320,11 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1190,
-        "y": 520,
+        "x": 1070,
+        "y": 500,
         "wires": [
             []
         ]
-    },
-    {
-        "id": "9f377990cc3dd014",
-        "type": "ui_gauge",
-        "z": "4fb5716966343de7",
-        "name": "",
-        "group": "d4493d830499e4ab",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "gtype": "gage",
-        "title": "gauge",
-        "label": "units",
-        "format": "{{msg.payload}}",
-        "min": 0,
-        "max": "1",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "diff": true,
-        "className": "",
-        "x": 570,
-        "y": 320,
-        "wires": []
     },
     {
         "id": "359a5f45c32870ab",
@@ -276,7 +334,7 @@
         "props": [],
         "repeat": "10",
         "crontab": "",
-        "once": true,
+        "once": false,
         "onceDelay": "5",
         "topic": "",
         "x": 250,
@@ -286,24 +344,6 @@
                 "0c8b326a724c82b8",
                 "8fcf6aa8839eaacc"
             ]
-        ]
-    },
-    {
-        "id": "d0cf2324b157ded0",
-        "type": "function",
-        "z": "4fb5716966343de7",
-        "name": "Incremetar Vibração",
-        "func": "if (msg.payload !== 1) {\n    return;\n}\nconst contador = global.get(\"contadorVibracoes\");\nglobal.set(\"contadorVibracoes\", contador + 1);\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "//O código adicionado aqui será executado uma vez\n// sempre que o nó for iniciado.\nglobal.set(\"contadorVibracoes\", 0);\n",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 160,
-        "wires": [
-            []
         ]
     },
     {
@@ -319,8 +359,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 860,
-        "y": 600,
+        "x": 780,
+        "y": 560,
         "wires": []
     },
     {
@@ -335,12 +375,13 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 550,
-        "y": 600,
+        "x": 510,
+        "y": 620,
         "wires": [
             [
                 "8bb35579d8ef5d2f",
-                "b8104569cb471f46"
+                "b8104569cb471f46",
+                "dbd582016e384ce1"
             ]
         ]
     },
@@ -363,12 +404,13 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 860,
-        "y": 420,
+        "x": 800,
+        "y": 440,
         "wires": [
             [
                 "30167fa1a5a832b4",
-                "4659eb8d84b1a570"
+                "4659eb8d84b1a570",
+                "70e2816f64b758a9"
             ]
         ]
     },
@@ -410,10 +452,46 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 840,
-        "y": 660,
+        "x": 740,
+        "y": 680,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "dbd582016e384ce1",
+        "type": "mqtt out",
+        "z": "4fb5716966343de7",
+        "name": "Vibração",
+        "topic": "weslleydsg/feeds/ac-vibracao",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cb497bc7bd357efb",
+        "x": 740,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "70e2816f64b758a9",
+        "type": "mqtt out",
+        "z": "4fb5716966343de7",
+        "name": "Temperatura",
+        "topic": "weslleydsg/feeds/ac-temperatura",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cb497bc7bd357efb",
+        "x": 1070,
+        "y": 440,
+        "wires": []
     }
 ]
