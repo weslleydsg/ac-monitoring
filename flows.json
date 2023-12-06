@@ -175,13 +175,12 @@
         "debounce": "25",
         "read": false,
         "bcm": true,
-        "x": 280,
-        "y": 180,
+        "x": 180,
+        "y": 220,
         "wires": [
             [
-                "86be3291042a4db7",
-                "8402954f7e7b5306",
-                "a90925c0cc4b5095"
+                "6eb9305a21ae5b89",
+                "86be3291042a4db7"
             ]
         ]
     },
@@ -190,7 +189,7 @@
         "type": "debug",
         "z": "2bc482b3e8055f9a",
         "name": "Sensor de Vibração Leitura",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -198,8 +197,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 600,
-        "y": 160,
+        "x": 420,
+        "y": 60,
         "wires": []
     },
     {
@@ -226,8 +225,8 @@
         "seg2": "",
         "diff": true,
         "className": "",
-        "x": 530,
-        "y": 240,
+        "x": 670,
+        "y": 120,
         "wires": []
     },
     {
@@ -235,17 +234,112 @@
         "type": "function",
         "z": "2bc482b3e8055f9a",
         "name": "Incremetar Vibração",
-        "func": "if (msg.payload !== 1) {\n    return;\n}\nconst contador = global.get(\"contadorVibracoes\");\nglobal.set(\"contadorVibracoes\", contador + 1);\n",
+        "func": "const contador = global.get(\"contadorVibracoes\");\nglobal.set(\"contadorVibracoes\", contador + 1);\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "//O código adicionado aqui será executado uma vez\n// sempre que o nó for iniciado.\nglobal.set(\"contadorVibracoes\", 0);\n",
         "finalize": "",
         "libs": [],
-        "x": 580,
-        "y": 80,
+        "x": 720,
+        "y": 180,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "17c855b8a721f21b",
+        "type": "file",
+        "z": "2bc482b3e8055f9a",
+        "name": "Salvar Log",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1130,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94bf5470fb15f669",
+        "type": "function",
+        "z": "2bc482b3e8055f9a",
+        "name": "Trata log",
+        "func": "const payload = msg.payload;\nmsg.payload = `${new Date().toISOString()}: \"${payload}\"`;\nmsg.filename = `${global.get('root')}/.logs/ac-logs.txt`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 260,
+        "wires": [
+            [
+                "17c855b8a721f21b"
+            ]
+        ]
+    },
+    {
+        "id": "6eb9305a21ae5b89",
+        "type": "switch",
+        "z": "2bc482b3e8055f9a",
+        "name": "Tratamento do dado",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "a90925c0cc4b5095",
+                "8402954f7e7b5306"
+            ],
+            [],
+            [
+                "91cd058327d3c53f"
+            ]
+        ]
+    },
+    {
+        "id": "91cd058327d3c53f",
+        "type": "function",
+        "z": "2bc482b3e8055f9a",
+        "name": "Log de Vibração Errada ",
+        "func": "const value = msg.payload;\nmsg.payload = `Leitura do sensor de Vibração fora da faixa: '${value}'`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 260,
+        "wires": [
+            [
+                "94bf5470fb15f669"
+            ]
         ]
     },
     {
@@ -257,8 +351,8 @@
         "dht": "11",
         "pintype": "0",
         "pin": "6",
-        "x": 580,
-        "y": 220,
+        "x": 460,
+        "y": 140,
         "wires": [
             [
                 "4834a4953b394260"
@@ -278,8 +372,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1090,
-        "y": 160,
+        "x": 1070,
+        "y": 80,
         "wires": []
     },
     {
@@ -320,8 +414,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1090,
-        "y": 280,
+        "x": 1070,
+        "y": 200,
         "wires": [
             []
         ]
@@ -339,8 +433,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 840,
-        "y": 460,
+        "x": 740,
+        "y": 560,
         "wires": []
     },
     {
@@ -355,8 +449,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 400,
+        "x": 470,
+        "y": 500,
         "wires": [
             [
                 "8bb35579d8ef5d2f",
@@ -379,18 +473,24 @@
                 "vt": "num",
                 "v2": "50",
                 "v2t": "num"
+            },
+            {
+                "t": "else"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 1,
-        "x": 840,
-        "y": 220,
+        "outputs": 2,
+        "x": 740,
+        "y": 140,
         "wires": [
             [
                 "70e2816f64b758a9",
                 "4659eb8d84b1a570",
                 "30167fa1a5a832b4"
+            ],
+            [
+                "c1f9b5365f46455a"
             ]
         ]
     },
@@ -432,8 +532,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 800,
-        "y": 400,
+        "x": 700,
+        "y": 500,
         "wires": [
             []
         ]
@@ -452,8 +552,8 @@
         "correl": "",
         "expiry": "",
         "broker": "cb497bc7bd357efb",
-        "x": 800,
-        "y": 340,
+        "x": 700,
+        "y": 440,
         "wires": []
     },
     {
@@ -470,8 +570,8 @@
         "correl": "",
         "expiry": "",
         "broker": "cb497bc7bd357efb",
-        "x": 1090,
-        "y": 220,
+        "x": 1070,
+        "y": 140,
         "wires": []
     },
     {
@@ -487,8 +587,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 500,
-        "y": 100,
+        "x": 420,
+        "y": 60,
         "wires": []
     },
     {
@@ -499,10 +599,10 @@
         "mode": "timed",
         "name": "Conexão",
         "host": "io.adafruit.com",
-        "timer": "10",
+        "timer": "30",
         "inputs": 0,
-        "x": 120,
-        "y": 300,
+        "x": 140,
+        "y": 240,
         "wires": [
             [
                 "821f9d895ddb0658"
@@ -527,15 +627,137 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 310,
-        "y": 300,
+        "x": 170,
+        "y": 320,
         "wires": [
             [
-                "6eb4850528fd502a"
+                "6eb4850528fd502a",
+                "878cfe3d224acfa1"
             ],
             [
                 "8fcf6aa8839eaacc",
-                "0c8b326a724c82b8"
+                "0c8b326a724c82b8",
+                "93b734b92e6e4c75"
+            ]
+        ]
+    },
+    {
+        "id": "eaadafc6c083f03c",
+        "type": "file",
+        "z": "4fb5716966343de7",
+        "name": "Salvar Log",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1130,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "878cfe3d224acfa1",
+        "type": "function",
+        "z": "4fb5716966343de7",
+        "name": "Log de Conexão falhou ",
+        "func": "const estaConectado = global.get(\"estaConectado\");\nif (estaConectado) {\n    global.set(\"estaConectado\", false);\n}\nmsg.estaConectado = estaConectado;\nmsg.payload = \"Conexão falhou\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 300,
+        "wires": [
+            [
+                "e58af1862de12e85"
+            ]
+        ]
+    },
+    {
+        "id": "e58af1862de12e85",
+        "type": "function",
+        "z": "4fb5716966343de7",
+        "name": "Trata log",
+        "func": "const payload = msg.payload;\nmsg.payload = `${new Date().toISOString()}: \"${payload}\"`;\nmsg.filename = `${global.get('root')}/.logs/ac-logs.txt`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 340,
+        "wires": [
+            [
+                "eaadafc6c083f03c"
+            ]
+        ]
+    },
+    {
+        "id": "c1f9b5365f46455a",
+        "type": "function",
+        "z": "4fb5716966343de7",
+        "name": "Log de Temperatura Errada ",
+        "func": "const value = msg.payload;\nmsg.payload = `Leitura do sensor de temperatura fora da faixa: '${value}'`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 240,
+        "wires": [
+            [
+                "e58af1862de12e85"
+            ]
+        ]
+    },
+    {
+        "id": "93b734b92e6e4c75",
+        "type": "function",
+        "z": "4fb5716966343de7",
+        "name": "Atualiza conexão",
+        "func": "const estaConectado = global.get(\"estaConectado\");\nif (!estaConectado) {\n    global.set(\"estaConectado\", true);\n    msg.reconactado = true;\n    msg.payload = \"Conexão restabelecida\";\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 380,
+        "wires": [
+            [
+                "ff96975f179c13f3"
+            ]
+        ]
+    },
+    {
+        "id": "ff96975f179c13f3",
+        "type": "switch",
+        "z": "4fb5716966343de7",
+        "name": "Reconectado?",
+        "property": "reconactado",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 700,
+        "y": 380,
+        "wires": [
+            [
+                "e58af1862de12e85"
             ]
         ]
     }
