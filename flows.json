@@ -1,1 +1,419 @@
-[]
+[
+    {
+        "id": "4fb5716966343de7",
+        "type": "tab",
+        "label": "Coleta de Dados",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d4493d830499e4ab",
+        "type": "ui_group",
+        "name": "Payload",
+        "tab": "a763b3333d9a21bb",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": "",
+        "info": "msg.payload"
+    },
+    {
+        "id": "a763b3333d9a21bb",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false,
+        "info": "msg.payload"
+    },
+    {
+        "id": "68bc9b7a32be8f58",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "0c8b326a724c82b8",
+        "type": "rpi-dht22",
+        "z": "4fb5716966343de7",
+        "name": "Sensro Temperatura",
+        "topic": "dht11",
+        "dht": "11",
+        "pintype": "0",
+        "pin": "6",
+        "x": 560,
+        "y": 440,
+        "wires": [
+            [
+                "4834a4953b394260"
+            ]
+        ]
+    },
+    {
+        "id": "4659eb8d84b1a570",
+        "type": "debug",
+        "z": "4fb5716966343de7",
+        "name": "Temperatura",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9f7278a6a4924364",
+        "type": "rpi-gpio in",
+        "z": "4fb5716966343de7",
+        "name": "Sensor Vibração",
+        "pin": "21",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "58366fd11f99b3c6",
+                "9f377990cc3dd014",
+                "d0cf2324b157ded0"
+            ]
+        ]
+    },
+    {
+        "id": "58366fd11f99b3c6",
+        "type": "debug",
+        "z": "4fb5716966343de7",
+        "name": "Sensor de Vibração Leitura",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "30167fa1a5a832b4",
+        "type": "ui_chart",
+        "z": "4fb5716966343de7",
+        "name": "",
+        "group": "d4493d830499e4ab",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Temperatura",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1190,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f377990cc3dd014",
+        "type": "ui_gauge",
+        "z": "4fb5716966343de7",
+        "name": "",
+        "group": "d4493d830499e4ab",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "1",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": true,
+        "className": "",
+        "x": 570,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "359a5f45c32870ab",
+        "type": "inject",
+        "z": "4fb5716966343de7",
+        "name": "Loop (Envio de dados)",
+        "props": [],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "x": 250,
+        "y": 440,
+        "wires": [
+            [
+                "0c8b326a724c82b8",
+                "8fcf6aa8839eaacc"
+            ]
+        ]
+    },
+    {
+        "id": "d0cf2324b157ded0",
+        "type": "function",
+        "z": "4fb5716966343de7",
+        "name": "Incremetar Vibração",
+        "func": "if (msg.payload !== 1) {\n    return;\n}\nconst contador = global.get(\"contadorVibracoes\");\nglobal.set(\"contadorVibracoes\", contador + 1);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "//O código adicionado aqui será executado uma vez\n// sempre que o nó for iniciado.\nglobal.set(\"contadorVibracoes\", 0);\n",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8bb35579d8ef5d2f",
+        "type": "debug",
+        "z": "4fb5716966343de7",
+        "name": "Contador Vibracoes",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "8fcf6aa8839eaacc",
+        "type": "function",
+        "z": "4fb5716966343de7",
+        "name": "Busca Vibrações",
+        "func": "const contador = global.get(\"contadorVibracoes\");\nmsg.payload = contador;\nglobal.set(\"contadorVibracoes\", 0);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 600,
+        "wires": [
+            [
+                "8bb35579d8ef5d2f",
+                "b8104569cb471f46"
+            ]
+        ]
+    },
+    {
+        "id": "4834a4953b394260",
+        "type": "switch",
+        "z": "4fb5716966343de7",
+        "name": "Tratamento da temperatura",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "10",
+                "vt": "num",
+                "v2": "50",
+                "v2t": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 860,
+        "y": 420,
+        "wires": [
+            [
+                "30167fa1a5a832b4",
+                "4659eb8d84b1a570"
+            ]
+        ]
+    },
+    {
+        "id": "b8104569cb471f46",
+        "type": "ui_chart",
+        "z": "4fb5716966343de7",
+        "name": "",
+        "group": "d4493d830499e4ab",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "label": "Vibrações",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 840,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    }
+]
